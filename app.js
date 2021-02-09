@@ -8,10 +8,12 @@ const dotenv = require("dotenv").config();
 const Group = require("./models/group");
 
 //here we will require the routes
+const groups = require("./routes/groups");
 
 //setup of app and db
 
-app.use(bodyParser.urlencoded({ extended: true }));
+//needed this line to properly parse json objects in req
+app.use(bodyParser.json());
 
 mongoose.connect(process.env.DB_CONNECTION, {
   useUnifiedTopology: true,
@@ -24,6 +26,9 @@ db.on("error", console.error.bind(console, "Error connecting to mongoose"));
 db.once("open", function () {
   console.log("Connected to the database");
 });
+
+//routes
+app.use("/groups", groups);
 
 //listen to port
 
